@@ -1,0 +1,40 @@
+body {
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: #00B7FF;
+}
+
+.titleIndex {
+    text-align: center;
+}
+
+.viewContainer {
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+    height: 500px;
+    border: 1px solid lightgrey;
+}
+
+.theTable .td{
+    border : 2px solid darkblue;
+}
+
+.indexTitle{
+    color : brown;
+}
+.indexText{
+    margin : 5px;
+    background-color : #FFDDDD;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    text-align : justify;
+}
+
+.addUserTitle{
+    color : darkblue;
+}
+.addUserForm div{
+    text-align : center;
+}
