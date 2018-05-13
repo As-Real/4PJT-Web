@@ -11,6 +11,7 @@ router.get('/users', function(req, res, next) {
     con.query(query, function(err, data){
         if(err){
             res.status(err.statusCode || 500).json(err);
+            return;
         }
         console.log(data);
         res.json(data);
@@ -35,6 +36,7 @@ router.post('/users', function(req, res, next) {
     con.query(query, function(err, data){
         if(err){
             res.status(err.statusCode || 500).json(err);
+            return;
         }
         console.log(data);
         res.sendStatus(201);
@@ -57,6 +59,7 @@ router.delete('/users/:id', function(req, res, next) {
     con.query(query, function(err, data){
         if(err){
             res.status(err.statusCode || 500).json(err);
+            return;
         }
         console.log(data);
         res.sendStatus(200);
@@ -86,6 +89,7 @@ router.put('/users/:id', function(req, res, next) {
     con.query(query, function(err, data){
         if(err){
             res.status(err.statusCode || 500).json(err);
+            return;
         }
         console.log(data);
         res.sendStatus(200);
