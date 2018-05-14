@@ -75,13 +75,25 @@ Ces libraires dans node_modules ne doivent pas être poussées sur Git, seul doi
 
 ### MySql
 
+
+#### Server
+
+Il faut un serveur MysSql. A ce niveau on peut utiliser  MySql Server (classique).
+
+L'outil Wamp pour windows inclut deja un serveur MySql, cela peut faire l'affaire.
+
+Il est conseillé de mettre 127.0.0.1 en hôte et 3306 en port
+
+
+#### Créer la connexion
+
+Il faut ensuite créer une connection MySql pour la lier au projet
+
 Le plus facile pour configurer la base est d'installer  mysql workbench (https://dev.mysql.com/downloads/workbench/)
 
 C'est une interface graphique qui permet une configuration facile de MySql
 
-Une fois installé, il faurdra créer une connexion MySql.
-
-Il est conseillé de mettre 127.0.0.1 en hostname/nom d'hôte et 3306 en port
+Une fois installé, on peut créer une connexion MySql.
 
 Il faut ensuite créer un schema. Il est conseillé de l'appeller "default".  Cela peut être fait en executant 
 
@@ -137,14 +149,3 @@ Il est possible de vérifier le fonctionnement en accédant au projet puis aux l
 `http://localhost:3000/users/add`
 
 
-## Détails techniques
-### Arborescence et Architecture
-### Routing
-####	Back
-#### Front: Node
-#### Front: Angular
-
-
-
-## Comment developer
-### Ajouter une page
