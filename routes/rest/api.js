@@ -18,6 +18,51 @@ router.get('/users', function(req, res, next) {
     })
 });
 
+router.get('/users/:id', function(req, res, next) {
+    var id = req.params.id;
+
+    if(!id){
+        res.status(err.statusCode || 500).json('Missing mandatory parameter');
+        return;
+    }
+
+    var query = 'SELECT * FROM user WHERE id = ?;';
+    var inserts = [id];
+    query = mysql.format(query, inserts);
+
+    con.query(query, function(err, data){
+        if(err){
+            res.status(err.statusCode || 500).json(err);
+            return;
+        }
+        console.log(data);
+        res.json(data);
+    })
+});
+
+router.post('/auth', function(req, res, next) {
+    var username = req.body.username;
+    var password = req.body.password;
+
+    var query = 'SELECT * FROM user WHERE ?? = ? AND ?? = ?;';
+    var inserts = ['username', username, 'password', password];
+    query = mysql.format(query, inserts);
+
+    con.query(query, function(err, data){
+        if(err){
+            res.status(err.statusCode || 500).json(err);
+            return;
+        }
+        console.log(data);
+        if(data && data.length && data !== undefined) {
+            res.sendStatus(200);
+        }
+        else{
+            res.sendStatus(401)
+        }
+    })
+});
+
 
 router.post('/users', function(req, res, next) {
     var name = req.body.name;
