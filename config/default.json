@@ -1,9 +1,54 @@
 {
-  "mysql" : {
-    "host" : "localhost",
-    "port" : "3306",
-    "user" : "root",
-    "password" : "root",
-    "database" : "default"
+  "mysql": {
+    "host": "localhost",
+    "port": "3306",
+    "user": "root",
+    "password": "root",
+    "database": "default"
+  },
+  "storage": {
+    "path": "E:/Cours/4PJT/Test",
+    "types": {
+
+      ".json" : "txt",
+      ".pdf" : "txt",
+      ".txt" : "txt",
+      ".docx" : "txt",
+      ".odt" : "txt",
+      ".csv" : "txt",
+      ".log" : "txt",
+      ".sql" : "txt",
+
+      ".mp3" : "audio",
+      ".wav" : "audio",
+      ".ogg" : "audio",
+      ".mpa" : "audio",
+      ".wma" : "audio",
+
+      ".jpg" : "picture",
+      ".jpeg" : "picture",
+      ".bmp" : "picture",
+      ".gif" : "picture",
+      ".svg" : "picture",
+      ".tif" : "picture",
+      ".ico" : "picture",
+
+      ".avi" : "video",
+      ".mpeg" : "video",
+      ".mp4" : "video",
+      ".mkv" : "video",
+      ".mov" : "video",
+      ".m4v" : "video",
+      ".wmv" : "video",
+
+      ".7z" : "archive",
+      ".zip" : "archive",
+      ".rar" : "archive",
+      ".deb" : "archive",
+      ".pkg" : "archive",
+      ".tar.gz" : "archive",
+      ".tar" : "archive",
+      ".z" : "archive"
+    }
   }
 }

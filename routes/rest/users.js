@@ -4,8 +4,9 @@ var router = express.Router();
 var config = require('config');
 var mysql = require('mysql');
 
+//Base route : /api/users
 
-router.get('/users', function(req, res, next) {
+router.get('/', function(req, res, next) {
     var query = 'SELECT * FROM user;';
 
     con.query(query, function(err, data){
@@ -18,7 +19,7 @@ router.get('/users', function(req, res, next) {
     })
 });
 
-router.get('/users/:id', function(req, res, next) {
+router.get('/:id', function(req, res, next) {
     var id = req.params.id;
 
     if(!id){
@@ -64,13 +65,13 @@ router.post('/auth', function(req, res, next) {
 });
 
 
-router.post('/users', function(req, res, next) {
+router.post('/', function(req, res, next) {
     var name = req.body.name;
     var username = req.body.username;
     var password = req.body.password;
 
     if(!name || !username || ! password){
-        res.status(err.statusCode || 500).json('Missing mandatory parameter');
+        res.status(400).json('Missing mandatory parameter');
         return;
     }
 
@@ -89,11 +90,11 @@ router.post('/users', function(req, res, next) {
 });
 
 
-router.delete('/users/:id', function(req, res, next) {
+router.delete('/:id', function(req, res, next) {
     var id = req.params.id;
 
     if(!id){
-        res.status(err.statusCode || 500).json('Missing mandatory parameter');
+        res.status(400).json('Missing mandatory parameter');
         return;
     }
 
@@ -112,18 +113,18 @@ router.delete('/users/:id', function(req, res, next) {
 });
 
 
-router.put('/users/:id', function(req, res, next) {
+router.put('/:id', function(req, res, next) {
     var id = req.params.id;
     var name = req.body.name;
     var username = req.body.username;
     var password = req.body.password;
 
     if(!id){
-        res.status(err.statusCode || 500).json('Missing mandatory parameter');
+        res.status(400).json('Missing mandatory parameter');
         return;
     }
     if(!name || !username || ! password){
-        res.status(err.statusCode || 500).json('Missing mandatory parameter');
+        res.status(400).json('Missing mandatory parameter');
         return;
     }
 

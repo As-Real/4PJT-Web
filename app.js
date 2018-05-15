@@ -9,7 +9,8 @@ var fs = require('fs');
 
 
 var views = require('./routes/views');
-var api = require('./routes/rest/api');
+var usersApi = require('./routes/rest/users');
+var filesApi = require('./routes/rest/filesNfolders');
 
 var app = express();
 
@@ -29,7 +30,8 @@ app.use('/node_modules', express.static(path.resolve(__dirname,'node_modules')))
 app.use('/views', express.static(path.resolve(__dirname,'views')));
 
 app.use('/', views);
-app.use('/api', api);
+app.use('/api/users', usersApi);
+app.use('/api/files', filesApi);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
