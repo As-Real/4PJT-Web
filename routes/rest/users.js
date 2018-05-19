@@ -56,7 +56,12 @@ router.post('/auth', function(req, res, next) {
         }
         console.log(data);
         if(data && data.length && data !== undefined) {
-            res.sendStatus(200);
+            if(data.length > 1){
+                res.status(500).json("Two users match these credentials. This should NEVER happen")
+            }
+            else{
+                res.status(200).json(data[0].id);
+            }
         }
         else{
             res.sendStatus(401)
