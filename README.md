@@ -149,3 +149,26 @@ Il est possible de vérifier le fonctionnement en accédant au projet puis aux l
 `http://localhost:3000/users/add`
 
 
+### File hosting
+
+Pour heberger et gerer les fichiers, il faut fournir un chemin à Node.
+
+Dans un second temps, ce chemin renverra vers l'espace de stockage Cloud une fois sur le serveur
+
+Il faut fournir un chemin dans le fichier default.json, sous la clé storage.path. Dans le cas d'un environnement de dev, choisissez un dossier local de votre PC.
+
+Ce chein sera la raçine de tous les fichiers/dossiers stockés
+
+N'oubliez pas de créer un dossier pour chaque utilisateur existant, le dossier doit avoir pour nom l'id de l'utilisateur. Ce sera le dossier privé de cet utilisateur
+
+Exemple de configuration pour le fichier `default.json` : 
+
+````
+{
+  "mysql" : {...}
+  "storage": {
+    "path": "E:/Cours/4PJT/Test",
+    "types": { laisser par défaut } 
+  }
+}
+````
