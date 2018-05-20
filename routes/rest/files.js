@@ -9,6 +9,31 @@ var upload = multer({});
 
 //Base route : /api/files
 
+router.get('/download',  function(req,res,next){
+
+    var id = req.query.id;
+    var path = req.query.path;
+
+    if(!path){
+        res.status(400).json('Missing path');
+        return;
+    }
+    if(!id){
+        res.status(400).json('Missing user id');
+        return;
+    }
+
+    var prefixPath = storageConfig.path + '/' + id;
+
+    if (!fs.existsSync(prefixPath)) {
+        res.status(400).json('Given id does not match any user id');
+        return;
+    }
+
+    var pathToGet = prefixPath + path;
+
+    res.download(pathToGet);
+});
 
 router.post('/upload', upload.single('incoming'), function(req,res,next){
 

@@ -27,6 +27,11 @@ var upApp = angular.module('upApp', ["ngRoute","ngResource"]).config(
                 templateUrl: "/views/ng-routing/upload.html"
                 , controller: "uploadController"
             })
+            .when("/files/download", {
+                templateUrl: "/views/ng-routing/download.html"
+                , controller: "downloadController"
+            })
+
     }
 );
 
