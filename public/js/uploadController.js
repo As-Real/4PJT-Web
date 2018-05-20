@@ -25,7 +25,7 @@ app.controller('uploadController', function($scope, $resource, $http) {
         //Call API
         $http.post('/api/files/upload', fd, {
             transformRequest: angular.identity,
-            headers: {'Content-Type': undefined},
+            headers: {'Content-Type': undefined, 'Authorization' : "Basic " + window.btoa("admin:admin")}
         })
             .then(function(response) {
                 console.log(response.status);

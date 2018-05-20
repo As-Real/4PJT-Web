@@ -13,7 +13,8 @@ app.controller('downloadController', function($scope, $resource, $http) {
         //Call API
         $http.post('/api/files/download', {id : $scope.id , path : $scope.path} ,
             {
-                responseType: 'arraybuffer'
+                responseType: 'arraybuffer',
+                headers : {'Authorization' : "Basic " + window.btoa("admin:admin")}
             })
             .then(function (response) {
                 var fileName = getFileName(response.headers('Content-Disposition'));
