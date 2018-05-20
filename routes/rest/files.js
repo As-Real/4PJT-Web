@@ -4,8 +4,54 @@ var router = express.Router();
 var config = require('config');
 var storageConfig = config.get('storage');
 var fs = require('fs');
+var multer  = require('multer');
+var upload = multer({});
 
 //Base route : /api/files
+
+
+router.post('/upload', upload.single('incoming'), function(req,res,next){
+
+    var id = req.body.id;
+    var path = req.body.path;
+
+    if(!path){
+        res.status(400).json('Missing path');
+        return;
+    }
+    if(!id){
+        res.status(400).json('Missing user id');
+        return;
+    }
+
+    var prefixPath = storageConfig.path + '/' + id;
+
+    if (!fs.existsSync(prefixPath)) {
+        res.status(400).json('Given id does not match any user id');
+        return;
+    }
+
+    var pathToGet = prefixPath + path;
+
+    if(!fs.lstatSync(pathToGet).isDirectory()){
+        res.status(400).json('Path is not valid or is not a directory');
+        return;
+    }
+
+    var buffer = req.file.buffer;
+
+    var fileDescriptor;
+    try {
+        fileDescriptor = fs.openSync(pathToGet + req.file.originalname , 'w');
+    } catch (e) {
+        res.sendStatus(500)
+    }
+    if (fileDescriptor) {
+        fs.writeSync(fileDescriptor, buffer, 0, buffer.length, 0);
+        fs.closeSync(fileDescriptor);
+    }
+    res.sendStatus(200);
+});
 
 router.get('/list', function(req, res, next) {
     var id = req.query.id;

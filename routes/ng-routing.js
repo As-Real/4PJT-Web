@@ -17,3 +17,16 @@ var app = angular.module('app', ["ngRoute", "ngResource"]).config(
                 })
     }
 );
+
+var upApp = angular.module('upApp', ["ngRoute","ngResource"]).config(
+    function($routeProvider,$locationProvider) {
+        $locationProvider.html5Mode(true);
+
+        $routeProvider
+            .when("/files/upload", {
+                templateUrl: "/views/ng-routing/upload.html"
+                , controller: "uploadController"
+            })
+    }
+);
+
