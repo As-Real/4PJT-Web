@@ -6,10 +6,11 @@ var storageConfig = config.get('storage');
 var fs = require('fs');
 var multer  = require('multer');
 var upload = multer({});
+var passport = require('passport');
 
 //Base route : /api/files
 
-router.post('/download',  function(req,res,next){
+router.post('/download', passport.authenticate('basic', { session: false }), function(req,res,next){
 
     var id = req.body.id;
     var path = req.body.path;
@@ -35,7 +36,7 @@ router.post('/download',  function(req,res,next){
     res.download(pathToGet);
 });
 
-router.get('/download',  function(req,res,next){
+router.get('/download', passport.authenticate('basic', { session: false }),  function(req,res,next){
 
     var id = req.query.id;
     var path = req.query.path;
@@ -63,7 +64,7 @@ router.get('/download',  function(req,res,next){
 
 
 
-router.post('/upload', upload.single('incoming'), function(req,res,next){
+router.post('/upload', passport.authenticate('basic', { session: false }),upload.single('incoming'), function(req,res,next){
 
     var id = req.body.id;
     var path = req.body.path;
@@ -106,7 +107,7 @@ router.post('/upload', upload.single('incoming'), function(req,res,next){
     res.sendStatus(200);
 });
 
-router.get('/list', function(req, res, next) {
+router.get('/list',passport.authenticate('basic', { session: false }), function(req, res, next) {
     var id = req.query.id;
     var path = req.query.path;
 
@@ -151,7 +152,7 @@ router.get('/list', function(req, res, next) {
     });
 });
 
-router.post('/rename', function(req, res, next) {
+router.post('/rename', passport.authenticate('basic', { session: false }),function(req, res, next) {
     var id = req.body.id;
     var path = req.body.path;
     var newPath = req.body.newPath;

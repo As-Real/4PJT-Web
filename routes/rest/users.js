@@ -3,10 +3,11 @@ var path = require('path');
 var router = express.Router();
 var config = require('config');
 var mysql = require('mysql');
+var passport = require('passport');
 
 //Base route : /api/users
 
-router.get('/', function(req, res, next) {
+router.get('/', passport.authenticate('basic', { session: false }),function(req, res, next) {
     var query = 'SELECT * FROM user;';
 
     con.query(query, function(err, data){
@@ -19,7 +20,7 @@ router.get('/', function(req, res, next) {
     })
 });
 
-router.get('/:id', function(req, res, next) {
+router.get('/:id', passport.authenticate('basic', { session: false }),function(req, res, next) {
     var id = req.params.id;
 
     if(!id){
@@ -70,7 +71,7 @@ router.post('/auth', function(req, res, next) {
 });
 
 
-router.post('/', function(req, res, next) {
+router.post('/', passport.authenticate('basic', { session: false }),function(req, res, next) {
     var name = req.body.name;
     var username = req.body.username;
     var password = req.body.password;
@@ -95,7 +96,7 @@ router.post('/', function(req, res, next) {
 });
 
 
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', passport.authenticate('basic', { session: false }),function(req, res, next) {
     var id = req.params.id;
 
     if(!id){
@@ -118,7 +119,7 @@ router.delete('/:id', function(req, res, next) {
 });
 
 
-router.put('/:id', function(req, res, next) {
+router.put('/:id', passport.authenticate('basic', { session: false }),function(req, res, next) {
     var id = req.params.id;
     var name = req.body.name;
     var username = req.body.username;

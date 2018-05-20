@@ -4,10 +4,11 @@ var router = express.Router();
 var config = require('config');
 var storageConfig = config.get('storage');
 var fs = require('fs');
+var passport = require('passport');
 
 //Base route : /api/folders
 
-router.post('/add', function(req, res, next) {
+router.post('/add', passport.authenticate('basic', { session: false }),function(req, res, next) {
     var id = req.body.id;
     var path = req.body.path;
     var folderName = req.body.folderName;
