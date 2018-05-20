@@ -3,9 +3,15 @@ app.controller('downloadController', function($scope, $resource, $http) {
     $scope.test = 'download';
     console.log($scope.test);
 
+    $scope.id = 1;
+    $scope.path = "";
+
     $scope.down = function() {
+        if(!$scope.path){
+            return;
+        }
         //Call API
-        $http.get('/api/files/download' + "?" + "id=1" + "&" + "path=%2FTeamViewer_Setup.exe",
+        $http.get('/api/files/download' + "?" + "id=" + $scope.id + "&" + "path=" + $scope.path,
             {
                 responseType: 'arraybuffer'
             })
