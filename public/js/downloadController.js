@@ -11,7 +11,7 @@ app.controller('downloadController', function($scope, $resource, $http) {
             return;
         }
         //Call API
-        $http.get('/api/files/download' + "?" + "id=" + $scope.id + "&" + "path=" + $scope.path,
+        $http.post('/api/files/download', {id : $scope.id , path : $scope.path} ,
             {
                 responseType: 'arraybuffer'
             })
