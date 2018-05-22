@@ -10,36 +10,50 @@ var passport = require('passport');
 router.get('/', passport.authenticate('basic', { session: false }),function(req, res, next) {
     var query = 'SELECT * FROM user;';
 
-    con.query(query, function(err, data){
-        if(err){
-            res.status(err.statusCode || 500).json(err);
-            return;
+    checkIfAdmin(req.user.username, req.user.password, function(isValidatedAdmin){
+        if(isValidatedAdmin){
+            con.query(query, function(err, data){
+                if(err){
+                    res.status(err.statusCode || 500).json(err);
+                    return;
+                }
+                console.log(data);
+                res.json(data);
+            })
         }
-        console.log(data);
-        res.json(data);
-    })
+        else{
+            res.sendStatus(401)
+        }
+    });
 });
 
 router.get('/:id', passport.authenticate('basic', { session: false }),function(req, res, next) {
-    var id = req.params.id;
 
-    if(!id){
-        res.status(err.statusCode || 500).json('Missing mandatory parameter');
-        return;
-    }
+    checkIfAdmin(req.user.username, req.user.password, function (isValidatedAdmin) {
+        if (isValidatedAdmin) {
+            var id = req.params.id;
+            if (!id) {
+                res.status(err.statusCode || 500).json('Missing mandatory parameter');
+                return;
+            }
 
-    var query = 'SELECT * FROM user WHERE id = ?;';
-    var inserts = [id];
-    query = mysql.format(query, inserts);
+            var query = 'SELECT * FROM user WHERE id = ?;';
+            var inserts = [id];
+            query = mysql.format(query, inserts);
 
-    con.query(query, function(err, data){
-        if(err){
-            res.status(err.statusCode || 500).json(err);
-            return;
+            con.query(query, function (err, data) {
+                if (err) {
+                    res.status(err.statusCode || 500).json(err);
+                    return;
+                }
+                console.log(data);
+                res.json(data);
+            })
         }
-        console.log(data);
-        res.json(data);
-    })
+        else {
+            res.sendStatus(401)
+        }
+    });
 });
 
 router.post('/auth', function(req, res, next) {
@@ -70,8 +84,7 @@ router.post('/auth', function(req, res, next) {
     })
 });
 
-
-router.post('/', passport.authenticate('basic', { session: false }),function(req, res, next) {
+router.post('/', function(req, res, next) {
     var name = req.body.name;
     var username = req.body.username;
     var password = req.body.password;
@@ -97,25 +110,34 @@ router.post('/', passport.authenticate('basic', { session: false }),function(req
 
 
 router.delete('/:id', passport.authenticate('basic', { session: false }),function(req, res, next) {
-    var id = req.params.id;
 
-    if(!id){
-        res.status(400).json('Missing mandatory parameter');
-        return;
-    }
+    checkIfAdmin(req.user.username, req.user.password, function (isValidatedAdmin) {
+        if (isValidatedAdmin) {
 
-    var query = 'DELETE FROM user WHERE id = ?;';
-    var inserts = [id];
-    query = mysql.format(query, inserts);
+            var id = req.params.id;
 
-    con.query(query, function(err, data){
-        if(err){
-            res.status(err.statusCode || 500).json(err);
-            return;
+            if (!id) {
+                res.status(400).json('Missing mandatory parameter');
+                return;
+            }
+
+            var query = 'DELETE FROM user WHERE id = ?;';
+            var inserts = [id];
+            query = mysql.format(query, inserts);
+
+            con.query(query, function (err, data) {
+                if (err) {
+                    res.status(err.statusCode || 500).json(err);
+                    return;
+                }
+                console.log(data);
+                res.sendStatus(200);
+            })
         }
-        console.log(data);
-        res.sendStatus(200);
-    })
+        else {
+            res.sendStatus(401)
+        }
+    });
 });
 
 
@@ -148,6 +170,34 @@ router.put('/:id', passport.authenticate('basic', { session: false }),function(r
     })
 });
 
+
+
+function checkIfAdmin(username, password, callback) {
+
+    var query = 'SELECT * FROM user WHERE ?? = ? AND ?? = ?;';
+    var inserts = ['username', username, 'password', password];
+    query = mysql.format(query, inserts);
+
+    con.query(query, function(err, data){
+        if(err){
+            callback(false);
+            return
+        }
+        console.log(data);
+        if(data && data.length && data !== undefined) {
+            if(data.length > 1){
+                callback(false);
+            }
+            else{
+                var isAdmin = data[0].isAdmin === 1;
+                callback(isAdmin);
+            }
+        }
+        else{
+            callback(false);
+        }
+    })
+}
 
 
 module.exports = router;
