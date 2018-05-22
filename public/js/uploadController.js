@@ -3,7 +3,6 @@ app.controller('uploadController', function($scope, $resource, $http) {
     $scope.test = 'upload';
     console.log($scope.test);
 
-    $scope.id = 1;
     $scope.path = "";
 
     $scope.theFile = {};
@@ -21,7 +20,6 @@ app.controller('uploadController', function($scope, $resource, $http) {
         var fd = new FormData();
         fd.append('incoming', $scope.theFile);
         fd.append('path', $scope.path);
-        fd.append('id', $scope.id);
         //Call API
         $http.post('/api/files/upload', fd, {
             transformRequest: angular.identity,

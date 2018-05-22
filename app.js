@@ -12,6 +12,8 @@ var views = require('./routes/views');
 var usersApi = require('./routes/rest/users');
 var filesApi = require('./routes/rest/files');
 var foldersApi = require('./routes/rest/folders');
+var bcrypt = require('bcrypt');
+
 
 var app = express();
 
@@ -88,8 +90,8 @@ process.argv.forEach(function(val, index){
 passport.use(new BasicStrategy(
     function(username, password, done) {
 
-        var query = 'SELECT * FROM user WHERE ?? = ? AND ?? = ?;';
-        var inserts = ['username', username, 'password', password];
+        var query = 'SELECT * FROM user WHERE ?? = ?';
+        var inserts = ['username', username];
         query = mysql.format(query, inserts);
 
         con.query(query, function(err, data){
@@ -100,7 +102,11 @@ passport.use(new BasicStrategy(
                     return done(null, false);
                 }
                 else{
-                    return done(null, {id : data[0].id, password : password, username : username})
+                    if(bcrypt.compareSync(password, data[0].password)){
+                        return done(null, {id : data[0].id, password : password, username : username})
+                    } else {
+                        return done(null, false);
+                    }
                 }
             }
             else{

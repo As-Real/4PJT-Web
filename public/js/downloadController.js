@@ -3,7 +3,6 @@ app.controller('downloadController', function($scope, $resource, $http) {
     $scope.test = 'download';
     console.log($scope.test);
 
-    $scope.id = 1;
     $scope.path = "";
 
     $scope.down = function() {
@@ -11,7 +10,7 @@ app.controller('downloadController', function($scope, $resource, $http) {
             return;
         }
         //Call API
-        $http.post('/api/files/download', {id : $scope.id , path : $scope.path} ,
+        $http.post('/api/files/download', {path : $scope.path} ,
             {
                 responseType: 'arraybuffer',
                 headers : {'Authorization' : "Basic " + window.btoa("admin:admin")}
