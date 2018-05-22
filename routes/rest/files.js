@@ -12,7 +12,7 @@ var passport = require('passport');
 
 router.post('/download', passport.authenticate('basic', { session: false }), function(req,res,next){
 
-    var id = req.body.id;
+    var id = req.user.id;
     var path = req.body.path;
 
     if(!path){
@@ -38,7 +38,7 @@ router.post('/download', passport.authenticate('basic', { session: false }), fun
 
 router.get('/download', passport.authenticate('basic', { session: false }),  function(req,res,next){
 
-    var id = req.query.id;
+    var id = req.user.id;
     var path = req.query.path;
 
     if(!path){
@@ -66,7 +66,7 @@ router.get('/download', passport.authenticate('basic', { session: false }),  fun
 
 router.post('/upload', passport.authenticate('basic', { session: false }),upload.single('incoming'), function(req,res,next){
 
-    var id = req.body.id;
+    var id = req.user.id;
     var path = req.body.path;
 
     if(!path){
@@ -108,9 +108,9 @@ router.post('/upload', passport.authenticate('basic', { session: false }),upload
 });
 
 router.get('/list',passport.authenticate('basic', { session: false }), function(req, res, next) {
-    var id = req.query.id;
-    var path = req.query.path;
 
+    var id = req.user.id;
+    var path = req.query.path;
 
     if(!path){
         res.status(400).json('Missing path');
@@ -153,10 +153,10 @@ router.get('/list',passport.authenticate('basic', { session: false }), function(
 });
 
 router.post('/rename', passport.authenticate('basic', { session: false }),function(req, res, next) {
-    var id = req.body.id;
+
+    var id = req.user.id;
     var path = req.body.path;
     var newPath = req.body.newPath;
-
 
     if(!path){
         res.status(400).json('Missing path');

@@ -9,7 +9,7 @@ var passport = require('passport');
 //Base route : /api/folders
 
 router.post('/add', passport.authenticate('basic', { session: false }),function(req, res, next) {
-    var id = req.body.id;
+    var id = req.user.id;
     var path = req.body.path;
     var folderName = req.body.folderName;
 
