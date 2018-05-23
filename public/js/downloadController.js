@@ -35,7 +35,6 @@ app.controller('downloadController', function($scope, $resource, $http, $cookies
             });
     };
 
-
     function getFileName(contentDisposition) {
         var fileName = contentDisposition.split(';')[1].trim().split('=')[1];
         return fileName.replace(/"/g, '');
