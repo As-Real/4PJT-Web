@@ -1,5 +1,5 @@
-var app = angular.module('upApp');
-app.controller('downloadController', function($scope, $resource, $http) {
+var app = angular.module('app');
+app.controller('downloadController', function($scope, $resource, $http, $cookies) {
     $scope.test = 'download';
     console.log($scope.test);
 
@@ -13,7 +13,7 @@ app.controller('downloadController', function($scope, $resource, $http) {
         $http.post('/api/files/download', {path : $scope.path} ,
             {
                 responseType: 'arraybuffer',
-                headers : {'Authorization' : "Basic " + window.btoa("admin:admin")}
+                headers : {'Authorization' :  $cookies.get('auth')}
             })
             .then(function (response) {
                 var fileName = getFileName(response.headers('Content-Disposition'));

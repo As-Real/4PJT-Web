@@ -162,23 +162,31 @@ router.put('/:id', passport.authenticate('basic', { session: false }),function(r
         res.status(400).json('Missing mandatory parameter');
         return;
     }
-    var hash = bcrypt.hashSync(password, 6);
-    if(hash){
-        var query = 'UPDATE user  SET ?? = ? , ?? = ?, ?? = ? WHERE id = ?;';
-        var inserts = ['name', name, 'username', username, 'password', hash, id];
-        query = mysql.format(query, inserts);
+    checkIfAdmin(req.user.username, req.user.password, function (isValidatedAdmin) {
+        if(!isValidatedAdmin && id != req.user.id){
+            accessDenied = true;
+            res.sendStatus(401);
+        }
+        else{
+            var hash = bcrypt.hashSync(password, 6);
+            if(hash){
+                var query = 'UPDATE user  SET ?? = ? , ?? = ?, ?? = ? WHERE id = ?;';
+                var inserts = ['name', name, 'username', username, 'password', hash, id];
+                query = mysql.format(query, inserts);
 
-        con.query(query, function(err, data){
-            if(err){
-                res.status(err.statusCode || 500).json(err);
-                return;
+                con.query(query, function(err, data){
+                    if(err){
+                        res.status(err.statusCode || 500).json(err);
+                        return;
+                    }
+                    console.log(data);
+                    res.sendStatus(200);
+                })
+            }else{
+                res.sendStatus(500);
             }
-            console.log(data);
-            res.sendStatus(200);
-        })
-    }else{
-        res.sendStatus(500);
-    }
+        }
+    });
 });
 
 
