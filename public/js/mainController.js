@@ -98,7 +98,14 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
 
     $scope.startRenaming = function(object) {
         //Call API
-        var newPath = object.path.replace(object.name, object.newName);
+        var newPath;
+        var n = object.path.lastIndexOf(object.name);
+        if (n >= 0 && n + object.name.length >= object.path.length) {
+            newPath = object.path.substring(0, n) + object.newName;
+        }else{
+            return;
+        }
+
         $http.post('/api/files/rename', {path : object.path, newPath: newPath } ,
             {
                 headers : {'Authorization' :  $cookies.get('auth')}
