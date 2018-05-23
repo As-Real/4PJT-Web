@@ -52,5 +52,49 @@ router.post('/add', passport.authenticate('basic', { session: false }),function(
     });
 });
 
+router.post('/remove', passport.authenticate('basic', { session: false }),function(req, res, next) {
+    var id = req.user.id;
+    var path = req.body.path;
+
+    if(!path){
+        res.status(400).json('Missing path');
+        return;
+    }
+    if(!id){
+        res.status(400).json('Missing user id');
+        return;
+    }
+
+    var prefixPath = storageConfig.path + '/' + id;
+
+    if (!fs.existsSync(prefixPath)) {
+        res.status(400).json('Given id does not match any user id');
+        return;
+    }
+    var pathToGet = prefixPath + path;
+
+    if(!fs.lstatSync(pathToGet).isDirectory()){
+        res.status(400).json('Path is not valid or is not a directory');
+        return;
+    }
+
+
+    fs.rmdir(pathToGet, function(err) {
+        if(err){
+            if(err.code === "ENOTEMPTY"){
+                res.status(err.statusCode || 500).json("The directory you're trying to delete is not empty");
+                res.end();
+            }else{
+                res.status(err.statusCode || 500).json(err);
+                res.end();
+            }
+        }else{
+            res.sendStatus(200);
+        }
+    });
+});
+
+
+
 
 module.exports = router;
