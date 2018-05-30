@@ -1,19 +1,25 @@
 
 <div>
-    <h4>
+    <h4 style="text-align : center;">
         Connectez-vous :
     </h4>
 
     <div class="addUserForm">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" data-ng-model="username" placeholder="Username">
+        <br/>
+        <div class="shall-be-centered mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" id="usn">
+            <label class="mdl-textfield__label" for="usn" data-ng-model="username">Username</label>
         </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" data-ng-model="password" placeholder="Password">
+        <br/>
+        <div class=" shall-be-centered mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" id="pwd">
+            <label class="mdl-textfield__label" for="pwd" data-ng-model="password">Password</label>
         </div>
-        <button class="btn btn-default" data-ng-click="login()">Se connecter</button>
-    </div></div>
+        <br/>
+        <button class=" shall-be-centered mdl-button mdl-js-button mdl-button--raised" data-ng-click="login()">
+            Se connecter
+        </button>
+
+    </div>
 
 </div>

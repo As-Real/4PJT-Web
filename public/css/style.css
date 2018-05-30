@@ -13,8 +13,7 @@ a {
 .viewContainer {
     margin-left: auto;
     margin-right: auto;
-    width: 900px;
-    border: 1px solid lightgrey;
+    width: 1200px;
 }
 
 .theTable .td{
@@ -38,23 +37,21 @@ a {
     text-align : center;
 }
 
-.typeIcon{
-    font-size: 1.5em;
-}
-
 .oneNode{
     padding-top : 5px;
     padding-bottom : 5px;
 }
 
 .nodeTitle{
-    border : 1px solid #FCFCFC;
+    width : 40%;
     cursor : pointer;
+    background-color : #EFEFEF !important;
+
 }
 
 .nodeTitle:hover{
     color : darkgrey;
-    background-color : #FCFCFC;
+    background-color : #FAFAFA !important;
 }
 
 .nodeDownload{
@@ -67,4 +64,15 @@ a {
 .folderBold{
     color : #FF0000;
     cursor : pointer;
+}
+
+.icon-little{
+    font-size : 0.7em ;
+}
+
+
+.shall-be-centered{
+    display:block !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
 }
