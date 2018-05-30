@@ -4,6 +4,10 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
     console.log($scope.test);
     $scope.root = {children : {}};
 
+    //Can be null, "move" or "create"
+    $scope.mode = null;
+
+    $scope.toMove = null;
 
     $scope.reactOnClick = function(object){
         if(object.type !== "folder"){
@@ -37,8 +41,9 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
 
 
     $scope.startDownload = function(object) {
+        var apiPath = object.type === "folder" ? "/api/folders/download" : "/api/files/download";
         //Call API
-        $http.post('/api/files/download', {path : object.path} ,
+        $http.post(apiPath, {path : object.path} ,
             {
                 responseType: 'arraybuffer',
                 headers : {'Authorization' :  $cookies.get('auth')}
@@ -96,6 +101,8 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
             });
     }
 
+
+
     $scope.startRenaming = function(object) {
         //Call API
         var newPath;
@@ -140,6 +147,67 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
                     var a = 1;
                 });
 
+    };
+
+
+
+    $scope.startMove = function(file){
+        $scope.mode = 'move';
+        $scope.toMove = file;
+    };
+    $scope.chooseFolder = function(folderParent){
+        if($scope.mode === "uploadFile") {
+            $scope.uploadFile(folderParent)
+        }
+        if($scope.mode === "createFolder") {
+            $scope.createFolder(folderParent)
+        }
+        if($scope.mode === "move"){
+            $scope.move(folderParent)
+        }
+    };
+    $scope.move = function(parent){
+        if(!$scope.toMove) {
+            return;
+        }
+        var newPath = parent.path + '/' + $scope.toMove.name;
+        $http.post('/api/files/rename', {path : $scope.toMove.path , newPath  : newPath} ,
+            {
+                headers : {'Authorization' :  $cookies.get('auth')}
+            })
+            .then(function (response) {
+                    $scope.getFolderContent(parent.path+"/", parent)
+                    $scope.mode = null;
+                    $scope.toMove.deleted = true;
+                    if($scope.toMove.type === "folder"){
+                        $scope.toMove.children = null;
+                    }
+                },
+                function (error) {
+                    var a = 1;
+                });
+
+    };
+    $scope.uploadFile = function(parent){
+        $scope.startUpload(parent);
+        $scope.mode = null;
+
+    };
+    $scope.createFolder = function(parent){
+        var folderName = prompt("Nom du dossier");
+        if (folderName) {
+            $http.post('/api/folders/add', {path: parent.path +'/', folderName: folderName},
+                {
+                    headers: {'Authorization': $cookies.get('auth')}
+                })
+                .then(function (response) {
+                        $scope.getFolderContent(parent.path + "/", parent)
+                        $scope.mode = null;
+                    },
+                    function (error) {
+                        var a = 1;
+                    });
+        }
     };
 
 });

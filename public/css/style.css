@@ -63,3 +63,8 @@ a {
 .nodeUpload{
     background-color : #FCFCFC;
 }
+
+.folderBold{
+    color : #FF0000;
+    cursor : pointer;
+}
