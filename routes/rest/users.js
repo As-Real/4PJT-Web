@@ -5,6 +5,8 @@ var config = require('config');
 var mysql = require('mysql');
 var passport = require('passport');
 var bcrypt = require('bcrypt');
+var storageConfig = config.get('storage');
+var fs = require('fs');
 
 //Base route : /api/users
 
@@ -110,9 +112,26 @@ router.post('/', function(req, res, next) {
                 res.status(err.statusCode || 500).json(err);
                 return;
             }
+
+            var prefixPath = storageConfig.path + '/' + data.insertId;
+
             console.log(data);
-            res.sendStatus(201);
-        })
+            fs.mkdir(prefixPath, function(err) {
+                if(err){
+                    res.status(err.statusCode || 500).json(err);
+                    res.end();
+                }else{
+                    fs.mkdir(prefixPath + '/' + "root", function(err) {
+                        if(err){
+                            res.status(err.statusCode || 500).json(err);
+                            res.end();
+                        }else{
+                            res.sendStatus(201);
+                        }
+                    });
+                    }
+            });
+            })
     }else{
         res.sendStatus(500);
     }

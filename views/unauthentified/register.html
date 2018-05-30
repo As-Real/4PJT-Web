@@ -1,21 +1,29 @@
+<div>
+    <h4 style="text-align : center;">
+        Créer un compte :
+    </h4>
 
-<h4 class="addUserTitle">
-    Créer un compte
-</h4>
+    <div class="addUserForm">
+        <br/>
+        <div class="shall-be-centered mdl-textfield mdl-js-textfield">
+            <input data-ng-model="username" class="mdl-textfield__input" type="text" id="usn">
+            <label class="mdl-textfield__label" for="usn">Adresse mail</label>
+        </div>
+        <br/>
+        <div class=" shall-be-centered mdl-textfield mdl-js-textfield">
+            <input data-ng-model="password" class="mdl-textfield__input" type="password" id="pwd">
+            <label class="mdl-textfield__label" for="pwd">Mot de passe</label>
+        </div>
+        <br/>
+        <div class=" shall-be-centered mdl-textfield mdl-js-textfield">
+            <input data-ng-model="name" class="mdl-textfield__input" type="text" id="name">
+            <label class="mdl-textfield__label" for="name">Nom</label>
+        </div>
+        <br/>
+        <button class=" shall-be-centered mdl-button mdl-js-button mdl-button--raised mdl-button--accent" data-ng-click="create()">
+            Créer un compte
+        </button>
 
-<div class="addUserForm">
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" data-ng-model="name" aria-describedby="emailHelp" placeholder="Name">
-    </div>
-    <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" class="form-control" id="username" data-ng-model="username" placeholder="Username">
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" data-ng-model="password" placeholder="Password">
     </div>
 
-    <button class="btn btn-default" data-ng-click="addUser()">Add the user</button>
 </div>

@@ -14,7 +14,7 @@ var app = angular.module('app', ["ngRoute", "ngResource", 'ngCookies'])
             $routeProvider
                 .when("/anon/main", {
                     templateUrl: "/views/unauthentified/presentation.html"
-                    , controller: "registerController"
+                    , controller: "presentationController"
                 })
                 .when("/anon/login", {
                     templateUrl: "/views/unauthentified/login.html"
@@ -22,7 +22,7 @@ var app = angular.module('app', ["ngRoute", "ngResource", 'ngCookies'])
                 })
                 .when("/anon/register", {
                     templateUrl: "/views/unauthentified/register.html"
-                    , controller: "presentationController"
+                    , controller: "registerController"
                 })
                 .when("/front/", {
                     templateUrl: "/views/main/main.html"
@@ -31,10 +31,6 @@ var app = angular.module('app', ["ngRoute", "ngResource", 'ngCookies'])
                 .when("/front/logout", {
                     templateUrl: "/views/logout.html"
                     , controller: "loginController"
-                })
-                .when("/front/users/add", {
-                    templateUrl: "/views/users/addUser.html"
-                    , controller: "userAddController"
                 })
                 .when("/front/users/list", {
                     templateUrl: "/views/users/listUser.html"
