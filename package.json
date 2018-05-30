@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "adm-zip": "^0.4.11",
     "angular": "^1.6.9",
     "angular-cookies": "^1.6.9",
     "angular-resource": "^1.6.9",

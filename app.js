@@ -14,6 +14,7 @@ var filesApi = require('./routes/rest/files');
 var foldersApi = require('./routes/rest/folders');
 var bcrypt = require('bcrypt');
 
+global.__root = __dirname;
 
 var app = express();
 
