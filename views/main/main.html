@@ -12,7 +12,7 @@
 
 <script type="text/ng-template" id="folder">
     <ul>
-        <div class="oneNode">
+        <div class="oneNode" data-ng-if="!subfolder.deleted">
             <i data-ng-if="subfolder.type === 'folder'" class="far fa-folder typeIcon"></i>
             <i data-ng-if="subfolder.type === 'txt'" class="far fa-file-alt typeIcon"></i>
             <i data-ng-if="subfolder.type === 'audio'" class="far fa-file-audio typeIcon"></i>
@@ -27,12 +27,13 @@
             <button ng-if="!subfolder.renaming" data-ng-click="subfolder.renaming = true; subfolder.newName = subfolder.name" class="btn nodeDownload"><i class="fas fa-edit"></i></button>
             <button ng-if="subfolder.renaming" data-ng-click="startRenaming(subfolder)" class="btn nodeDownload"><i class="fas fa-check"></i></button>
 
-
             <button data-ng-if="subfolder.type !== 'folder'" data-ng-click="startDownload(subfolder)" class="btn nodeDownload"><i class="fas fa-download"></i></button>
             <span data-ng-if="subfolder.type === 'folder'">
                 <button data-ng-click="startUpload(subfolder)" class="btn nodeUpload"><i class="fas fa-cloud-upload-alt"></i></button>
                 <input class="btn btn-default" type="file" onchange="angular.element(this).scope().fileLoaded(this)">
             </span>
+
+            <button data-ng-click="startDelete(subfolder)" class="btn nodeDownload"><i class="fas fa-trash"></i></button>
 
 
         </div>

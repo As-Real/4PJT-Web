@@ -121,4 +121,25 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
 
     };
 
+    $scope.startDelete = function(object) {
+        //Call API
+        var route;
+        if(object.type === "folder"){
+            route = '/api/folders/remove'
+        }else{
+            route = '/api/files/remove'
+        }
+        $http.post(route, {path : object.path} ,
+            {
+                headers : {'Authorization' :  $cookies.get('auth')}
+            })
+            .then(function (response) {
+                    object.deleted = true;
+                },
+                function (error) {
+                    var a = 1;
+                });
+
+    };
+
 });
