@@ -12,12 +12,24 @@ var app = angular.module('app', ["ngRoute", "ngResource", 'ngCookies'])
         $locationProvider.html5Mode(true);
 
             $routeProvider
+                .when("/anon/main", {
+                    templateUrl: "/views/unauthentified/presentation.html"
+                    , controller: "registerController"
+                })
+                .when("/anon/login", {
+                    templateUrl: "/views/unauthentified/login.html"
+                    , controller: "loginController"
+                })
+                .when("/anon/register", {
+                    templateUrl: "/views/unauthentified/register.html"
+                    , controller: "presentationController"
+                })
                 .when("/front/", {
                     templateUrl: "/views/main/main.html"
                     , controller: "mainController"
                 })
-                .when("/front/login", {
-                    templateUrl: "/views/login.html"
+                .when("/front/logout", {
+                    templateUrl: "/views/logout.html"
                     , controller: "loginController"
                 })
                 .when("/front/users/add", {
@@ -27,12 +39,10 @@ var app = angular.module('app', ["ngRoute", "ngResource", 'ngCookies'])
                 .when("/front/users/list", {
                     templateUrl: "/views/users/listUser.html"
                     , controller: "userListController"
-
                 })
                 .when("/front/files/upload", {
                     templateUrl: "/views/files/upload.html"
                     , controller: "uploadController"
-
                 })
                 .when("/front/files/download", {
                     templateUrl: "/views/files/download.html"
@@ -40,16 +50,27 @@ var app = angular.module('app', ["ngRoute", "ngResource", 'ngCookies'])
                 })
     })
     .run(
-        function($rootScope, $cookies, $location) {
+        function($rootScope, $cookies, $window) {
 
         $rootScope.$on('$routeChangeStart', function (event, next) {
-            if(next.$$route.originalPath !== "/front/login"){
+            if(next.$$route.originalPath !== "/anon/login"
+                && next.$$route.originalPath !== "/anon/register"
+                && next.$$route.originalPath !== "/anon/main"){
                 if ($cookies.get('auth') === undefined || $cookies.get('auth') === null) {
                     event.preventDefault();
                     $rootScope.$evalAsync(function() {
-                        $location.path('/front/login');
+                        $window.location.href = '/anon/login';
                     });
                 }
+            }
+            else{
+                if ($cookies.get('auth') !== undefined && $cookies.get('auth') !== null) {
+                    event.preventDefault();
+                    $rootScope.$evalAsync(function() {
+                        $window.location.href = '/front/';
+                    });
+                }
+
             }
         });
     });

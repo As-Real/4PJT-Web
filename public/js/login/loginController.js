@@ -13,7 +13,7 @@ app.controller('loginController', function($scope, $resource, $http, $cookies, $
                     console.log(response);
                     $scope.authParam = "Basic " + window.btoa($scope.username + ":" + $scope.password);
                     $cookies.put('auth', $scope.authParam);
-                    $window.location.href = '/';
+                    $window.location.href = '/front/';
                 },
                 function (error) {
                     console.log(error);
@@ -22,5 +22,6 @@ app.controller('loginController', function($scope, $resource, $http, $cookies, $
 
     $scope.logout = function(){
         $cookies.remove('auth');
+        $window.location.href = '/anon/login';
     }
 });

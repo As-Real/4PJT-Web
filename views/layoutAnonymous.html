@@ -3,7 +3,7 @@
 <head>
     <base href="/">
     <meta charset="UTF-8">
-    <title>Non connecté</title>
+    <title>Bienvenue</title>
     <link rel="stylesheet" type="text/css" href="/public/css/style.css">
     <link rel="stylesheet" href="/public/libraries/fontawesome/fontawesome-all.css">
 
@@ -14,12 +14,9 @@
 
     <script src="/routes/ng-routing.js"></script>
 
-    <script src="/public/js/userListController.js"></script>
-    <script src="/public/js/userAddController.js"></script>
-    <script src="/public/js/downloadController.js"></script>
-    <script src="/public/js/uploadController.js"></script>
-    <script src="/public/js/mainController.js"></script>
     <script src="/public/js/login/loginController.js"></script>
+    <script src="/public/js/login/registerController.js"></script>
+    <script src="/public/js/login/mainController.js"></script>
 
     <script src="/public/libraries/jquery-3.3.1.min.js"></script>
 
@@ -44,14 +41,11 @@
         </div>
     </header>
     <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">Sup File</span>
+        <span class="mdl-layout-title">Anonyme</span>
         <nav class="mdl-navigation">
-            <a href="/front/" class="mdl-navigation__link">Page principale</a>
-            <a href="/front/files/download" class="mdl-navigation__link">Page de téléchargement</a>
-            <a href="/front/files/upload" class="mdl-navigation__link">Page d'upload</a>
-            <a href="/front/users/add" class="mdl-navigation__link">Ajouter un utilisateur</a>
-            <a href="/front/users/list" class="mdl-navigation__link">Liste des utilisateurs</a>
-            <a href="/front/logout" class="mdl-navigation__link">Se déconnecter</a>
+            <a href="/anon/main" class="mdl-navigation__link">Page principale</a>
+            <a href="/anon/register" class="mdl-navigation__link">S'inscrire</a>
+            <a href="/anon/login" class="mdl-navigation__link">Se connecter</a>
         </nav>
     </div>
     <main class="mdl-layout__content">
