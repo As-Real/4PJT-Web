@@ -6,12 +6,13 @@ var storageConfig = config.get('storage');
 var fs = require('fs');
 var multer  = require('multer');
 var upload = multer({});
+var passport = require('passport');
 
 //Base route : /api/files
 
-router.post('/download',  function(req,res,next){
+router.post('/download', passport.authenticate('basic', { session: false }), function(req,res,next){
 
-    var id = req.body.id;
+    var id = req.user.id;
     var path = req.body.path;
 
     if(!path){
@@ -35,9 +36,9 @@ router.post('/download',  function(req,res,next){
     res.download(pathToGet);
 });
 
-router.get('/download',  function(req,res,next){
+router.get('/download', passport.authenticate('basic', { session: false }),  function(req,res,next){
 
-    var id = req.query.id;
+    var id = req.user.id;
     var path = req.query.path;
 
     if(!path){
@@ -63,9 +64,9 @@ router.get('/download',  function(req,res,next){
 
 
 
-router.post('/upload', upload.single('incoming'), function(req,res,next){
+router.post('/upload', passport.authenticate('basic', { session: false }),upload.single('incoming'), function(req,res,next){
 
-    var id = req.body.id;
+    var id = req.user.id;
     var path = req.body.path;
 
     if(!path){
@@ -106,10 +107,10 @@ router.post('/upload', upload.single('incoming'), function(req,res,next){
     res.sendStatus(200);
 });
 
-router.get('/list', function(req, res, next) {
-    var id = req.query.id;
-    var path = req.query.path;
+router.get('/list',passport.authenticate('basic', { session: false }), function(req, res, next) {
 
+    var id = req.user.id;
+    var path = req.query.path;
 
     if(!path){
         res.status(400).json('Missing path');
@@ -151,11 +152,49 @@ router.get('/list', function(req, res, next) {
     });
 });
 
-router.post('/rename', function(req, res, next) {
-    var id = req.body.id;
+router.post('/remove', passport.authenticate('basic', { session: false }),function(req, res, next) {
+    var id = req.user.id;
+    var path = req.body.path;
+
+    if(!path){
+        res.status(400).json('Missing path');
+        return;
+    }
+    if(!id){
+        res.status(400).json('Missing user id');
+        return;
+    }
+
+    var prefixPath = storageConfig.path + '/' + id;
+
+    if (!fs.existsSync(prefixPath)) {
+        res.status(400).json('Given id does not match any user id');
+        return;
+    }
+    var pathToGet = prefixPath + path;
+
+    if(fs.lstatSync(pathToGet).isDirectory()){
+        res.status(400).json('Path is not valid or is a directory');
+        return;
+    }
+
+
+    fs.unlink(pathToGet, function(err) {
+        if(err){
+            res.status(err.statusCode || 500).json(err);
+            res.end();
+        }else{
+            res.sendStatus(200);
+        }
+    });
+});
+
+
+router.post('/rename', passport.authenticate('basic', { session: false }),function(req, res, next) {
+
+    var id = req.user.id;
     var path = req.body.path;
     var newPath = req.body.newPath;
-
 
     if(!path){
         res.status(400).json('Missing path');

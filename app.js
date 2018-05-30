@@ -6,12 +6,15 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var config = require('config');
 var fs = require('fs');
-
-
+var passport = require('passport');
+var BasicStrategy = require('passport-http').BasicStrategy;
 var views = require('./routes/views');
 var usersApi = require('./routes/rest/users');
 var filesApi = require('./routes/rest/files');
 var foldersApi = require('./routes/rest/folders');
+var bcrypt = require('bcrypt');
+
+global.__root = __dirname;
 
 var app = express();
 
@@ -85,6 +88,34 @@ process.argv.forEach(function(val, index){
     }
 });
 
+passport.use(new BasicStrategy(
+    function(username, password, done) {
+
+        var query = 'SELECT * FROM user WHERE ?? = ?';
+        var inserts = ['username', username];
+        query = mysql.format(query, inserts);
+
+        con.query(query, function(err, data){
+            if(err){
+                return done(err)}
+            if(data && data.length && data !== undefined) {
+                if(data.length > 1){
+                    return done(null, false);
+                }
+                else{
+                    if(bcrypt.compareSync(password, data[0].password)){
+                        return done(null, {id : data[0].id, password : password, username : username})
+                    } else {
+                        return done(null, false);
+                    }
+                }
+            }
+            else{
+                return done(null, false);
+            }
+        });
+    }
+));
 
 module.exports = app;
 

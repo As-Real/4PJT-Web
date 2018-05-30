@@ -6,27 +6,39 @@
     <title>Index</title>
     <link rel="stylesheet" type="text/css" href="/public/libraries/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/public/css/style.css">
+    <link rel="stylesheet" href="/public/libraries/fontawesome/fontawesome-all.css">
 
     <script src="/node_modules/angular/angular.js"></script>
     <script src="/node_modules/angular-route/angular-route.js"></script>
     <script src="/node_modules/angular-resource/angular-resource.js"></script>
+    <script src="/node_modules/angular-cookies/angular-cookies.js"></script>
 
     <script src="/routes/ng-routing.js"></script>
 
     <script src="/public/js/mainController.js"></script>
     <script src="/public/js/userListController.js"></script>
     <script src="/public/js/userAddController.js"></script>
+    <script src="/public/js/downloadController.js"></script>
+    <script src="/public/js/uploadController.js"></script>
+    <script src="/public/js/mainController.js"></script>
+    <script src="/public/js/login/loginController.js"></script>
 
     <script src="/public/libraries/jquery-3.3.1.min.js"></script>
     <script src="/public/libraries/popper.min.js"></script>
     <script src="/public/libraries/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
 </head>
 <body>
+<a href="/front/files/download" class="btn btn-info">Page de téléchargement</a>
+<a href="/front/files/upload" class="btn btn-info">Page d'upload</a>
+<a href="/front/users/add" class="btn btn-info">Ajouter un utilisateur</a>
+<a href="/front/users/list" class="btn btn-info">Liste des utilisateurs</a>
+<a href="/front/" class="btn btn-info">Page principale</a>
+<a href="/front/login" class="btn btn-info">Login/out</a>
 
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <h3 class="titleIndex">Index page</h3>
     <div class="viewContainer" ng-view></div>
 </div>
 

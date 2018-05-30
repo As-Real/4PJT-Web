@@ -1,9 +1,8 @@
-var app = angular.module('upApp');
-app.controller('downloadController', function($scope, $resource, $http) {
+var app = angular.module('app');
+app.controller('downloadController', function($scope, $resource, $http, $cookies) {
     $scope.test = 'download';
     console.log($scope.test);
 
-    $scope.id = 1;
     $scope.path = "";
 
     $scope.down = function() {
@@ -11,9 +10,10 @@ app.controller('downloadController', function($scope, $resource, $http) {
             return;
         }
         //Call API
-        $http.post('/api/files/download', {id : $scope.id , path : $scope.path} ,
+        $http.post('/api/files/download', {path : $scope.path} ,
             {
-                responseType: 'arraybuffer'
+                responseType: 'arraybuffer',
+                headers : {'Authorization' :  $cookies.get('auth')}
             })
             .then(function (response) {
                 var fileName = getFileName(response.headers('Content-Disposition'));
@@ -34,7 +34,6 @@ app.controller('downloadController', function($scope, $resource, $http) {
                 var a = 1;
             });
     };
-
 
     function getFileName(contentDisposition) {
         var fileName = contentDisposition.split(';')[1].trim().split('=')[1];

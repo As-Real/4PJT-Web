@@ -1,37 +1,55 @@
-var app = angular.module('app', ["ngRoute", "ngResource"]).config(
+var app = angular.module('app', ["ngRoute", "ngResource", 'ngCookies'])
+
+
+    .config(
     function($routeProvider,$locationProvider) {
+
+        var $cookies;
+        angular.injector(['ngCookies']).invoke(['$cookies', function(_$cookies_) {
+            $cookies = _$cookies_;
+        }]);
+
         $locationProvider.html5Mode(true);
 
             $routeProvider
-                .when("/users/main", {
-                    templateUrl: "/views/ng-routing/main.html"
+                .when("/front/", {
+                    templateUrl: "/views/main/main.html"
                     , controller: "mainController"
                 })
-                .when("/users/add", {
-                    templateUrl: "/views/ng-routing/addUser.html"
+                .when("/front/login", {
+                    templateUrl: "/views/login.html"
+                    , controller: "loginController"
+                })
+                .when("/front/users/add", {
+                    templateUrl: "/views/users/addUser.html"
                     , controller: "userAddController"
                 })
-                .when("/users/list", {
-                    templateUrl: "/views/ng-routing/listUser.html"
+                .when("/front/users/list", {
+                    templateUrl: "/views/users/listUser.html"
                     , controller: "userListController"
+
                 })
-    }
-);
+                .when("/front/files/upload", {
+                    templateUrl: "/views/files/upload.html"
+                    , controller: "uploadController"
 
-var upApp = angular.module('upApp', ["ngRoute","ngResource"]).config(
-    function($routeProvider,$locationProvider) {
-        $locationProvider.html5Mode(true);
+                })
+                .when("/front/files/download", {
+                    templateUrl: "/views/files/download.html"
+                    , controller: "downloadController"
+                })
+    })
+    .run(
+        function($rootScope, $cookies, $location) {
 
-        $routeProvider
-            .when("/files/upload", {
-                templateUrl: "/views/ng-routing/upload.html"
-                , controller: "uploadController"
-            })
-            .when("/files/download", {
-                templateUrl: "/views/ng-routing/download.html"
-                , controller: "downloadController"
-            })
-
-    }
-);
-
+        $rootScope.$on('$routeChangeStart', function (event, next) {
+            if(next.$$route.originalPath !== "/front/login"){
+                if ($cookies.get('auth') === undefined || $cookies.get('auth') === null) {
+                    event.preventDefault();
+                    $rootScope.$evalAsync(function() {
+                        $location.path('/front/login');
+                    });
+                }
+            }
+        });
+    });

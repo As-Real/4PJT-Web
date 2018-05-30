@@ -1,0 +1,49 @@
+
+<h4 class="indexTitle">
+    Here are all your files
+</h4>
+
+
+<br/><br/>
+<ul>
+    <button data-ng-click="mode='createFolder'">createFolder</button>
+
+    <input class="btn btn-default" type="file" onchange="angular.element(this).scope().fileLoaded(this)">
+    <button data-ng-click="mode='uploadFile'" class="btn nodeUpload"><i class="fas fa-cloud-upload-alt"></i></button>
+
+    Racine
+    <div ng-repeat="subfolder in root.children" ng-include="'folder'"></div>
+</ul>
+
+<script type="text/ng-template" id="folder">
+    <ul>
+        <div class="oneNode" data-ng-if="!subfolder.deleted">
+            <i data-ng-click="chooseFolder(subfolder)" data-ng-class="{'folderBold fas fa-arrow-circle-down' : mode !== null,  'far fa-folder' : mode == null}" data-ng-if="subfolder.type === 'folder'" class="typeIcon"></i>
+            <i data-ng-if="subfolder.type === 'txt'" class="far fa-file-alt typeIcon"></i>
+            <i data-ng-if="subfolder.type === 'audio'" class="far fa-file-audio typeIcon"></i>
+            <i data-ng-if="subfolder.type === 'archive'" class="far fa-file-archive typeIcon"></i>
+            <i data-ng-if="subfolder.type === 'video'" class="far fa-folder fa-file-video typeIcon"></i>
+            <i data-ng-if="subfolder.type === 'picture'" class="far fa-file-image typeIcon"></i>
+            <i data-ng-if="subfolder.type === 'unknown'" class="far fa-file typeIcon"></i>
+            <!--<img data-ng-src="/public/images/{{subfolder.type}}.png" class="typeIcon">-->
+            <button ng-if="!subfolder.renaming" ng-click="reactOnClick(subfolder)" class="nodeTitle btn btn-outline-secondary">{{subfolder.name}}</button>
+            <input ng-if="subfolder.renaming" type="text" ng-model="subfolder.newName">
+
+            <button ng-if="!subfolder.renaming" data-ng-click="subfolder.renaming = true; subfolder.newName = subfolder.name" class="btn nodeDownload"><i class="fas fa-edit"></i></button>
+            <button ng-if="subfolder.renaming" data-ng-click="startRenaming(subfolder)" class="btn nodeDownload"><i class="fas fa-check"></i></button>
+
+            <button data-ng-click="startMove(subfolder);" class="btn nodeDownload"><i class="fas fa-arrows-alt"></i></button>
+
+            <button data-ng-click="startDownload(subfolder)" class="btn nodeDownload"><i class="fas fa-download"></i></button>
+            <!--<span data-ng-if="subfolder.type === 'folder'">-->
+                <!--<button data-ng-click="startUpload(subfolder)" class="btn nodeUpload"><i class="fas fa-cloud-upload-alt"></i></button>-->
+                <!--<input class="btn btn-default" type="file" onchange="angular.element(this).scope().fileLoaded(this)">-->
+            <!--</span>-->
+
+            <button data-ng-click="startDelete(subfolder)" class="btn nodeDownload"><i class="fas fa-trash"></i></button>
+
+
+        </div>
+        <div ng-repeat="subfolder in subfolder.children" ng-include="'folder'"></div>
+    </ul>
+</script>

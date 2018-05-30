@@ -4,7 +4,13 @@
     Data is from the database
 </h4>
 
-<div class="tableTable">
+<div data-ng-if="errorMessage">
+    <h3 style="color: brown;">
+        {{errorMessage}}
+    </h3>
+</div>
+
+<div data-ng-if="!errorMessage" class="tableTable">
     <table class="table">
         <tr>
             <th>
