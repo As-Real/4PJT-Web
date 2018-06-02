@@ -60,7 +60,7 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
                     })[0].click();
                 },
                 function (error) {
-                    $scope.showSnackBar("Une erreur est survenue : " +  error.data)
+                    $scope.showSnackBar("Une erreur est survenue : " +  bToString(error.data))
                 });
     };
     function getFileName(contentDisposition) {
@@ -218,5 +218,10 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
         var data = {message: message, timeout : 5000};
         snackbarContainer.MaterialSnackbar.showSnackbar(data);
     };
+
+    $scope.bToString = function(buffer){
+        var unitArray = new Uint8Array(buffer);
+        return String.fromCharCode.apply(String, unitArray);
+    }
 
 });

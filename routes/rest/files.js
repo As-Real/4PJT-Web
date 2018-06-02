@@ -16,22 +16,23 @@ router.post('/download', passport.authenticate('basic', { session: false }), fun
     var path = req.body.path;
 
     if(!path){
-        res.status(400).json('Missing path');
-        return;
-    }
-    if(!id){
-        res.status(400).json('Missing user id');
+        res.status(400).json('Chemin du fichier manquant');
         return;
     }
 
     var prefixPath = storageConfig.path + '/' + id;
 
     if (!fs.existsSync(prefixPath)) {
-        res.status(400).json('Given id does not match any user id');
+        res.status(400).json('Le dossier personnel de l\'utilistateur n\'exsite pas');
         return;
     }
 
     var pathToGet = prefixPath + path;
+
+    if (!fs.existsSync(pathToGet)) {
+        res.status(400).json("Le chemin n'est pas valide");
+        return;
+    }
 
     res.download(pathToGet);
 });
@@ -42,22 +43,25 @@ router.get('/download', passport.authenticate('basic', { session: false }),  fun
     var path = req.query.path;
 
     if(!path){
-        res.status(400).json('Missing path');
-        return;
-    }
-    if(!id){
-        res.status(400).json('Missing user id');
+        res.status(400).json('Chemin du fichier manquant');
         return;
     }
 
     var prefixPath = storageConfig.path + '/' + id;
 
     if (!fs.existsSync(prefixPath)) {
-        res.status(400).json('Given id does not match any user id');
+        res.status(400).json('Le dossier personnel de l\'utilistateur n\'exsite pas');
         return;
     }
 
     var pathToGet = prefixPath + path;
+
+    if (!fs.existsSync(pathToGet)) {
+        res.status(400).json("Le chemin n'est pas valide");
+        return;
+    }
+
+
 
     res.download(pathToGet);
 });
@@ -70,25 +74,26 @@ router.post('/upload', passport.authenticate('basic', { session: false }),upload
     var path = req.body.path;
 
     if(!path){
-        res.status(400).json('Missing path');
-        return;
-    }
-    if(!id){
-        res.status(400).json('Missing user id');
+        res.status(400).json('Chemin de destination manquant');
         return;
     }
 
     var prefixPath = storageConfig.path + '/' + id;
 
     if (!fs.existsSync(prefixPath)) {
-        res.status(400).json('Given id does not match any user id');
+        res.status(400).json('Le dossier personnel de l\'utilistateur n\'exsite pas');
         return;
     }
 
     var pathToGet = prefixPath + path;
 
+    if (!fs.existsSync(pathToGet)) {
+        res.status(400).json('Le chemin n\'est pas valide');
+        return;
+    }
+
     if(!fs.lstatSync(pathToGet).isDirectory()){
-        res.status(400).json('Path is not valid or is not a directory');
+        res.status(400).json('Le chemin n\'est pas valide ou n\'est pas ubn dossier');
         return;
     }
 
@@ -113,25 +118,21 @@ router.get('/list',passport.authenticate('basic', { session: false }), function(
     var path = req.query.path;
 
     if(!path){
-        res.status(400).json('Missing path');
-        return;
-    }
-    if(!id){
-        res.status(400).json('Missing user id');
+        res.status(400).json('Chemin du dossier manquant');
         return;
     }
 
     var prefixPath = storageConfig.path + '/' + id;
 
     if (!fs.existsSync(prefixPath)) {
-        res.status(400).json('Given id does not match any user id');
+        res.status(400).json('Le dossier personnel de l\'utilistateur n\'exsite pas');
         return;
     }
 
     var pathToGet = prefixPath + path;
 
     if(!fs.lstatSync(pathToGet).isDirectory()){
-        res.status(400).json('Path is not valid or is not a directory');
+        res.status(400).json('Le chemin n\'est pas valide ou n\'est pas ubn dossier');
         return;
     }
 
@@ -157,24 +158,19 @@ router.post('/remove', passport.authenticate('basic', { session: false }),functi
     var path = req.body.path;
 
     if(!path){
-        res.status(400).json('Missing path');
+        res.status(400).json('Chemin du fichier manquant');
         return;
     }
-    if(!id){
-        res.status(400).json('Missing user id');
-        return;
-    }
-
     var prefixPath = storageConfig.path + '/' + id;
 
     if (!fs.existsSync(prefixPath)) {
-        res.status(400).json('Given id does not match any user id');
+        res.status(400).json('Le dossier personnel de l\'utilistateur n\'exsite pas');
         return;
     }
     var pathToGet = prefixPath + path;
 
     if(fs.lstatSync(pathToGet).isDirectory()){
-        res.status(400).json('Path is not valid or is a directory');
+        res.status(400).json('Le chemin n\'est pas valide ou n\'est pas ubn dossier');
         return;
     }
 
@@ -197,22 +193,18 @@ router.post('/rename', passport.authenticate('basic', { session: false }),functi
     var newPath = req.body.newPath;
 
     if(!path){
-        res.status(400).json('Missing path');
+        res.status(400).json('Chemin du fichier manquant');
         return;
     }
     if(!newPath){
-        res.status(400).json('Missing new path');
-        return;
-    }
-    if(!id){
-        res.status(400).json('Missing user id');
+        res.status(400).json('Nouveau chemin du fichier manquant');
         return;
     }
 
     var prefixPath = storageConfig.path + '/' + id;
 
     if (!fs.existsSync(prefixPath)) {
-        res.status(400).json('Given id does not match any user id');
+        res.status(400).json('Le dossier personnel de l\'utilistateur n\'exsite pas');
         return;
     }
 

@@ -36,7 +36,7 @@ router.get('/:id', passport.authenticate('basic', { session: false }),function(r
         if (isValidatedAdmin) {
             var id = req.params.id;
             if (!id) {
-                res.status(err.statusCode || 500).json('Missing mandatory parameter');
+                res.status(err.statusCode || 500).json('Paramètre manquant');
                 return;
             }
 
@@ -63,6 +63,12 @@ router.post('/auth', function(req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
 
+
+    if(!username || ! password){
+        res.status(400).json('Paramètre manquant');
+        return;
+    }
+
     var query = 'SELECT * FROM user WHERE ?? = ?;';
     var inserts = ['username', username];
     query = mysql.format(query, inserts);
@@ -75,7 +81,7 @@ router.post('/auth', function(req, res, next) {
         console.log(data);
         if(data && data.length && data !== undefined) {
             if(data.length > 1){
-                res.status(500).json("Two users match these credentials. This should NEVER happen")
+                res.status(500).json("Une erreur est survenue")
             }
             else{
                 if(bcrypt.compareSync(password, data[0].password)){
@@ -97,7 +103,7 @@ router.post('/', function(req, res, next) {
     var password = req.body.password;
 
     if(!name || !username || ! password){
-        res.status(400).json('Missing mandatory parameter');
+        res.status(400).json('Paramètre manquant');
         return;
     }
 
@@ -144,7 +150,7 @@ router.delete('/:id', passport.authenticate('basic', { session: false }),functio
         if (isValidatedAdmin) {
             var id = req.params.id;
             if (!id) {
-                res.status(400).json('Missing mandatory parameter');
+                res.status(400).json('Paramètre manquant');
                 return;
             }
             var query = 'DELETE FROM user WHERE id = ?;';
@@ -174,11 +180,11 @@ router.put('/:id', passport.authenticate('basic', { session: false }),function(r
     var password = req.body.password;
 
     if(!id){
-        res.status(400).json('Missing mandatory parameter');
+        res.status(400).json('Paramètre manquant');
         return;
     }
     if(!name || !username || ! password){
-        res.status(400).json('Missing mandatory parameter');
+        res.status(400).json('Paramètre manquant');
         return;
     }
     checkIfAdmin(req.user.username, req.user.password, function (isValidatedAdmin) {

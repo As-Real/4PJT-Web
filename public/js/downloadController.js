@@ -31,7 +31,9 @@ app.controller('downloadController', function($scope, $resource, $http, $cookies
                 })[0].click();
                 },
             function (error) {
-                $scope.showSnackBar("Une erreur est survenue : " +  error.data)
+                console.log(error);
+                var errMessage = $scope.bToString(error.data);
+                $scope.showSnackBar("Une erreur est survenue : " +  errMessage);
             });
     };
 
@@ -45,6 +47,10 @@ app.controller('downloadController', function($scope, $resource, $http, $cookies
         snackbarContainer.MaterialSnackbar.showSnackbar(data);
     };
 
+    $scope.bToString = function(buffer){
+        var unitArray = new Uint8Array(buffer);
+        return String.fromCharCode.apply(String, unitArray);
+    }
 });
 
 

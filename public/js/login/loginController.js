@@ -16,6 +16,7 @@ app.controller('loginController', function($scope, $resource, $http, $cookies, $
                     $window.location.href = '/front/';
                 },
                 function (error) {
+                    console.log(error);
                     $scope.showSnackBar("Une erreur est survenue : " +  error.data)
                 });
     };
