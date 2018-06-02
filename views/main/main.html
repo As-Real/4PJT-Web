@@ -1,4 +1,3 @@
-
 <h4 class="indexTitle">
     Voici vos fichiers
 </h4>
@@ -9,7 +8,8 @@
 
     <div style="width : 500px; padding-bottom:100px;">
         <span style="float: left">
-            <button id="upfolder" data-ng-click="mode='createFolder'" class="mdl-button mdl-js-button mdl-button--fab mdl-color--lime">
+            <button id="upfolder" data-ng-click="mode='createFolder'"
+                    class="mdl-button mdl-js-button mdl-button--fab mdl-color--lime">
                 <i class="material-icons">add</i>
             </button>
             <div class="mdl-tooltip" data-mdl-for="upfolder">
@@ -20,7 +20,8 @@
 
         <span style="float: right">
             <input class="btn btn-default" type="file" onchange="angular.element(this).scope().fileLoaded(this)">
-            <button id="upfile" data-ng-click="mode='uploadFile'" class="mdl-button mdl-js-button mdl-button--fab mdl-color--amber">
+            <button id="upfile" data-ng-click="mode='uploadFile'"
+                    class="mdl-button mdl-js-button mdl-button--fab mdl-color--amber">
                 <i class="fas fa-cloud-upload-alt"></i>
             </button>
             <div class="mdl-tooltip" data-mdl-for="upfile">
@@ -36,8 +37,11 @@
         <div class="oneNode" data-ng-if="!subfolder.deleted">
 
             <span class=" mdl-chip mdl-chip--contact nodeTitle" ng-click="reactOnClick(subfolder)">
-                <span ng-class="{'mdl-color--lime' : subfolder.type === 'folder', 'mdl-color--amber' : subfolder.type !== 'folder'}"  class="mdl-chip__contact  mdl-color-text--white">
-                     <i data-ng-click="chooseFolder(subfolder)" data-ng-class="{'folderBold fas fa-arrow-circle-down' : mode !== null,  'far fa-folder' : mode == null}" data-ng-if="subfolder.type === 'folder'" class="typeIcon"></i>
+                <span ng-class="{'mdl-color--lime' : subfolder.type === 'folder', 'mdl-color--amber' : subfolder.type !== 'folder'}"
+                      class="mdl-chip__contact  mdl-color-text--white">
+                     <i data-ng-click="chooseFolder(subfolder)"
+                        data-ng-class="{'folderBold fas fa-arrow-circle-down' : mode !== null,  'far fa-folder' : mode == null}"
+                        data-ng-if="subfolder.type === 'folder'" class="typeIcon"></i>
                     <i data-ng-if="subfolder.type === 'txt'" class="far fa-file-alt typeIcon"></i>
                     <i data-ng-if="subfolder.type === 'audio'" class="far fa-file-audio typeIcon"></i>
                     <i data-ng-if="subfolder.type === 'archive'" class="far fa-file-archive typeIcon"></i>
@@ -46,23 +50,26 @@
                     <i data-ng-if="subfolder.type === 'unknown'" class="far fa-file typeIcon"></i>
 
                 </span>
-            <!--<img data-ng-src="/public/images/{{subfolder.type}}.png" class="typeIcon">-->
-                <span ng-if="!subfolder.renaming"  class="mdl-chip__text">{{subfolder.name}}</span>
+                <!--<img data-ng-src="/public/images/{{subfolder.type}}.png" class="typeIcon">-->
+                <span ng-if="!subfolder.renaming" class="mdl-chip__text">{{subfolder.name}}</span>
                 <input ng-if="subfolder.renaming" type="text" ng-model="subfolder.newName">
             </span>
-            <button ng-if="!subfolder.renaming" data-ng-click="subfolder.renaming = true; subfolder.newName = subfolder.name" class="nodeDownload mdl-button mdl-js-button mdl-button--icon"><i class=" icon-little fas fa-edit"></i></button>
-            <button ng-if="subfolder.renaming" data-ng-click="startRenaming(subfolder)" class="nodeDownload mdl-button mdl-js-button mdl-button--icon"><i class="fas fa-check icon-little"></i></button>
-
-            <button data-ng-click="startMove(subfolder);" class="nodeDownload mdl-button mdl-js-button mdl-button--icon"><i class="fas fa-arrows-alt icon-little"></i></button>
-
-            <button data-ng-click="startDownload(subfolder)" class="nodeDownload mdl-button mdl-js-button mdl-button--icon"><i class="fas fa-download icon-little"></i></button>
-            <!--<span data-ng-if="subfolder.type === 'folder'">-->
-                <!--<button data-ng-click="startUpload(subfolder)" class="btn nodeUpload"><i class="fas fa-cloud-upload-alt"></i></button>-->
-                <!--<input class="btn btn-default" type="file" onchange="angular.element(this).scope().fileLoaded(this)">-->
-            <!--</span>-->
-
-            <button data-ng-click="startDelete(subfolder)" class="nodeDownload mdl-button mdl-js-button mdl-button--icon"><i class="fas fa-trash icon-little"></i></button>
-
+            <button ng-if="!subfolder.renaming"
+                    data-ng-click="subfolder.renaming = true; subfolder.newName = subfolder.name"
+                    class="nodeDownload mdl-button mdl-js-button mdl-button--icon"><i
+                    class=" icon-little fas fa-edit"></i></button>
+            <button ng-if="subfolder.renaming" data-ng-click="startRenaming(subfolder)"
+                    class="nodeDownload mdl-button mdl-js-button mdl-button--icon"><i
+                    class="fas fa-check icon-little"></i></button>
+            <button data-ng-click="startMove(subfolder);"
+                    class="nodeDownload mdl-button mdl-js-button mdl-button--icon"><i
+                    class="fas fa-arrows-alt icon-little"></i></button>
+            <button data-ng-click="startDownload(subfolder)"
+                    class="nodeDownload mdl-button mdl-js-button mdl-button--icon"><i
+                    class="fas fa-download icon-little"></i></button>
+            <button data-ng-click="startDelete(subfolder)"
+                    class="nodeDownload mdl-button mdl-js-button mdl-button--icon"><i
+                    class="fas fa-trash icon-little"></i></button>
 
         </div>
         <div ng-repeat="subfolder in subfolder.children" ng-include="'folder'"></div>
