@@ -14,8 +14,6 @@ app.controller('registerController', function($scope, $resource, $http, $cookies
                 $cookies.put('auth', $scope.authParam);
                 $window.location.href = '/front/';
             },function (error) {
-                var prefixPath = storageConfig.path + '/' + id;
-
             });
 
     }

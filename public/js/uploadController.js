@@ -27,11 +27,8 @@ app.controller('uploadController', function($scope, $resource, $http, $cookies) 
                 'Authorization' :  $cookies.get('auth')}
         })
             .then(function(response) {
-                console.log(response.status);
-                console.log(response.data);
                 })
             .catch(function(error) {
-                console.log(error);
             });
     }
 

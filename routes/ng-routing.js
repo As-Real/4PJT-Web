@@ -32,10 +32,6 @@ var app = angular.module('app', ["ngRoute", "ngResource", 'ngCookies'])
                     templateUrl: "/views/logout.html"
                     , controller: "loginController"
                 })
-                .when("/front/users/list", {
-                    templateUrl: "/views/users/listUser.html"
-                    , controller: "userListController"
-                })
                 .when("/front/files/upload", {
                     templateUrl: "/views/files/upload.html"
                     , controller: "uploadController"

@@ -1,11 +1,12 @@
 <div class="form-group">
-
     <div class="form-group">
-        <label for="path">Path:</label>
-        <input type="text" class="form-control" id="path" ng-model="path">
+        <div class=" shall-be-centered mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" id="path" ng-model="path">
+            <label class="mdl-textfield__label" for="path">Chemin du fichier</label>
+        </div>
+        <br/>
+        <button class=" shall-be-centered mdl-button mdl-js-button mdl-button--raised mdl-button--accent" data-ng-click="down()">
+            Télcharger le fichier
+        </button>
     </div>
-
-    <div class="form-group">
-
-    <button class="btn btn-default" ng-click="down()">downdowndowndowndowndown</button>
 </div>

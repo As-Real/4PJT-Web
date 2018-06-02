@@ -31,7 +31,6 @@ app.controller('downloadController', function($scope, $resource, $http, $cookies
                 })[0].click();
                 },
             function (error) {
-                var a = 1;
             });
     };
 
