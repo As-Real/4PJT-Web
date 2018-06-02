@@ -91,11 +91,15 @@ router.post('/upload', passport.authenticate('basic', {session: false}), upload.
 	}
 
 	if (!fs.lstatSync(pathToGet).isDirectory()) {
-		res.status(400).json('Le chemin n\'est pas valide ou n\'est pas ubn dossier');
+		res.status(400).json('Le chemin n\'est pas valide ou n\'est pas un dossier');
 		return;
 	}
 
-	var buffer = req.file.buffer;
+    if(pathToGet.slice(-1) !== "/"){
+        pathToGet = pathToGet + '/'
+    }
+
+    var buffer = req.file.buffer;
 
 	var fileDescriptor;
 	try {
@@ -130,10 +134,9 @@ router.get('/list', passport.authenticate('basic', {session: false}), function (
 	var pathToGet = prefixPath + path;
 
 	if (!fs.lstatSync(pathToGet).isDirectory()) {
-		res.status(400).json('Le chemin n\'est pas valide ou n\'est pas ubn dossier');
+		res.status(400).json('Le chemin n\'est pas valide ou n\'est pas un dossier');
 		return;
 	}
-
 
 	var result = [];
 
@@ -168,7 +171,7 @@ router.post('/remove', passport.authenticate('basic', {session: false}), functio
 	var pathToGet = prefixPath + path;
 
 	if (fs.lstatSync(pathToGet).isDirectory()) {
-		res.status(400).json('Le chemin n\'est pas valide ou n\'est pas ubn dossier');
+		res.status(400).json('Le chemin est un dossier');
 		return;
 	}
 

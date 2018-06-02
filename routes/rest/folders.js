@@ -32,7 +32,16 @@ router.post('/add', passport.authenticate('basic', {session: false}), function (
 	}
 	var pathToGet = prefixPath + path;
 
-	var folder = pathToGet + folderName;
+    if (!fs.lstatSync(pathToGet).isDirectory()) {
+        res.status(400).json('Le chemin n\'est pas valide ou n\'est pas un dossier');
+        return;
+    }
+
+    if(pathToGet.slice(-1) !== "/"){
+        pathToGet = pathToGet + '/'
+    }
+
+    var folder = pathToGet + folderName;
 
 	fs.mkdir(folder, function (err) {
 		if (err) {
