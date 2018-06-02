@@ -10,10 +10,7 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
     $scope.toMove = null;
 
     $scope.reactOnClick = function(object){
-        if(object.type !== "folder"){
-            alert('ok');
-        }
-        else{
+        if(object.type === "folder"){
             if(!object.children){
                 $scope.getFolderContent(object.path+"/", object);
             }
@@ -31,10 +28,9 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
             .then(function (response) {
                 container.children = response.data;
                 container.displayChildren = true;
-                console.log(container);
                 },
                 function (error) {
-                    console.log(error);
+                    $scope.showSnackBar("Une erreur est survenue : " +  error.data)
                 });
     };
     $scope.getFolderContent('/', $scope.root);
@@ -64,7 +60,7 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
                     })[0].click();
                 },
                 function (error) {
-                    var a = 1;
+                    $scope.showSnackBar("Une erreur est survenue : " +  error.data)
                 });
     };
     function getFileName(contentDisposition) {
@@ -93,11 +89,11 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
         })
             .then(function(response) {
                 $scope.getFolderContent(object.path+"/", object)
-                console.log(response.status);
-                console.log(response.data);
+                $scope.showSnackBar("Fichier upload")
+
             })
             .catch(function(error) {
-                console.log(error);
+                $scope.showSnackBar("Une erreur est survenue : " +  error.data)
             });
     }
 
@@ -121,9 +117,11 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
                     object.renaming = false;
                     object.name = object.newName;
                     object.path = newPath;
+                    $scope.showSnackBar("Element renommé")
+
                 },
                 function (error) {
-                    var a = 1;
+                    $scope.showSnackBar("Une erreur est survenue : " +  error.data)
                 });
 
     };
@@ -142,9 +140,10 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
             })
             .then(function (response) {
                     object.deleted = true;
+                    $scope.showSnackBar("Element supprimé")
                 },
                 function (error) {
-                    var a = 1;
+                    $scope.showSnackBar("Une erreur est survenue : " +  error.data)
                 });
 
     };
@@ -182,9 +181,11 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
                     if($scope.toMove.type === "folder"){
                         $scope.toMove.children = null;
                     }
+                    $scope.showSnackBar("Element déplacé")
+
                 },
                 function (error) {
-                    var a = 1;
+                    $scope.showSnackBar("Une erreur est survenue : " +  error.data)
                 });
 
     };
@@ -203,11 +204,19 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
                 .then(function (response) {
                         $scope.getFolderContent(parent.path + "/", parent)
                         $scope.mode = null;
+                        $scope.showSnackBar("Dossier crée")
                     },
                     function (error) {
-                        var a = 1;
+                        $scope.showSnackBar("Une erreur est survenue : " +  error.data)
                     });
         }
+    };
+
+
+    $scope.showSnackBar = function(message){
+        var snackbarContainer = document.querySelector('#alert-snackbar');
+        var data = {message: message, timeout : 5000};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
     };
 
 });

@@ -27,9 +27,16 @@ app.controller('uploadController', function($scope, $resource, $http, $cookies) 
                 'Authorization' :  $cookies.get('auth')}
         })
             .then(function(response) {
-                })
+                $scope.showSnackBar("Fichier upload")
+            })
             .catch(function(error) {
+                $scope.showSnackBar("Une erreur est survenue : " +  error.data)
             });
     }
+    $scope.showSnackBar = function(message){
+        var snackbarContainer = document.querySelector('#alert-snackbar');
+        var data = {message: message, timeout : 5000};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    };
 
 });

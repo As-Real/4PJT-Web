@@ -31,6 +31,7 @@ app.controller('downloadController', function($scope, $resource, $http, $cookies
                 })[0].click();
                 },
             function (error) {
+                $scope.showSnackBar("Une erreur est survenue : " +  error.data)
             });
     };
 
@@ -38,6 +39,11 @@ app.controller('downloadController', function($scope, $resource, $http, $cookies
         var fileName = contentDisposition.split(';')[1].trim().split('=')[1];
         return fileName.replace(/"/g, '');
     }
+    $scope.showSnackBar = function(message){
+        var snackbarContainer = document.querySelector('#alert-snackbar');
+        var data = {message: message, timeout : 5000};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    };
 
 });
 

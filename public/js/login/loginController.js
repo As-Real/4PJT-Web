@@ -16,12 +16,18 @@ app.controller('loginController', function($scope, $resource, $http, $cookies, $
                     $window.location.href = '/front/';
                 },
                 function (error) {
-                    console.log(error);
+                    $scope.showSnackBar("Une erreur est survenue : " +  error.data)
                 });
     };
 
     $scope.logout = function(){
         $cookies.remove('auth');
         $window.location.href = '/anon/login';
-    }
+    };
+
+    $scope.showSnackBar = function(message){
+        var snackbarContainer = document.querySelector('#alert-snackbar');
+        var data = {message: message, timeout : 5000};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    };
 });

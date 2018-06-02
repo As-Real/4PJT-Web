@@ -14,7 +14,15 @@ app.controller('registerController', function($scope, $resource, $http, $cookies
                 $cookies.put('auth', $scope.authParam);
                 $window.location.href = '/front/';
             },function (error) {
+                $scope.showSnackBar("Une erreur est survenue : " +  error.data)
             });
 
     }
+
+    $scope.showSnackBar = function(message){
+        var snackbarContainer = document.querySelector('#alert-snackbar');
+        var data = {message: message, timeout : 5000};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    };
+
 });
