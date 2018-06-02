@@ -78,7 +78,7 @@ con.connect(function(err) {
 process.argv.forEach(function(val, index){
     if(val === '--import-db'){
         console.log('Importing data to database...');
-        var sqlQuery = fs.readFileSync('./test.sql').toString();
+        var sqlQuery = fs.readFileSync('./initdb.sql').toString();
         con.query(sqlQuery, function(err, res){
             if(err){
                 throw err;

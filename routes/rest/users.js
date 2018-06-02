@@ -20,7 +20,6 @@ router.get('/', passport.authenticate('basic', { session: false }),function(req,
                     res.status(err.statusCode || 500).json(err);
                     return;
                 }
-                console.log(data);
                 res.json(data);
             })
         }
@@ -49,7 +48,6 @@ router.get('/:id', passport.authenticate('basic', { session: false }),function(r
                     res.status(err.statusCode || 500).json(err);
                     return;
                 }
-                console.log(data);
                 res.json(data);
             })
         }
@@ -78,7 +76,6 @@ router.post('/auth', function(req, res, next) {
             res.status(err.statusCode || 500).json(err);
             return;
         }
-        console.log(data);
         if(data && data.length && data !== undefined) {
             if(data.length > 1){
                 res.status(500).json("Une erreur est survenue")
@@ -121,7 +118,6 @@ router.post('/', function(req, res, next) {
 
             var prefixPath = storageConfig.path + '/' + data.insertId;
 
-            console.log(data);
             fs.mkdir(prefixPath, function(err) {
                 if(err){
                     res.status(err.statusCode || 500).json(err);
@@ -162,7 +158,6 @@ router.delete('/:id', passport.authenticate('basic', { session: false }),functio
                     res.status(err.statusCode || 500).json(err);
                     return;
                 }
-                console.log(data);
                 res.sendStatus(200);
             })
         }
@@ -204,7 +199,6 @@ router.put('/:id', passport.authenticate('basic', { session: false }),function(r
                         res.status(err.statusCode || 500).json(err);
                         return;
                     }
-                    console.log(data);
                     res.sendStatus(200);
                 })
             }else{
@@ -227,7 +221,6 @@ function checkIfAdmin(username, password, callback) {
             callback(false);
             return
         }
-        console.log(data);
         if(data && data.length && data !== undefined) {
             if(data.length > 1){
                 callback(false);

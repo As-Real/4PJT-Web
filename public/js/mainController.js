@@ -1,7 +1,5 @@
 var app = angular.module('app');
 app.controller('mainController', function($scope, $rootScope, $location, $http, $cookies) {
-    $scope.test = 'file list';
-    console.log($scope.test);
     $scope.root = {children : {}};
 
     //Can be null, "move" or "create"
@@ -70,7 +68,6 @@ app.controller('mainController', function($scope, $rootScope, $location, $http, 
 
     $scope.fileLoaded = function (ele) {
         $scope.theFile = ele.files[0];
-        console.log($scope.theFile);
     };
 
     $scope.startUpload = function(object){

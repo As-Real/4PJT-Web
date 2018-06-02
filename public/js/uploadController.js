@@ -1,7 +1,5 @@
 var app = angular.module('app');
 app.controller('uploadController', function($scope, $resource, $http, $cookies) {
-    $scope.test = 'upload';
-    console.log($scope.test);
 
     $scope.path = "";
 
@@ -9,7 +7,6 @@ app.controller('uploadController', function($scope, $resource, $http, $cookies) 
 
     $scope.fileLoaded = function (ele) {
         $scope.theFile = ele.files[0];
-        console.log($scope.theFile);
     };
 
     $scope.up = function(){

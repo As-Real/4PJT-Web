@@ -1,8 +1,5 @@
 var app = angular.module('app');
 app.controller('downloadController', function($scope, $resource, $http, $cookies) {
-    $scope.test = 'download';
-    console.log($scope.test);
-
     $scope.path = "";
 
     $scope.down = function() {
@@ -31,7 +28,6 @@ app.controller('downloadController', function($scope, $resource, $http, $cookies
                 })[0].click();
                 },
             function (error) {
-                console.log(error);
                 var errMessage = $scope.bToString(error.data);
                 $scope.showSnackBar("Une erreur est survenue : " +  errMessage);
             });
