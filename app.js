@@ -25,13 +25,13 @@ app.set('views', path.join(__dirname, 'views'));
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use('/public', express.static(path.resolve(__dirname,'public')));
-app.use('/routes', express.static(path.resolve(__dirname,'routes')));
-app.use('/node_modules', express.static(path.resolve(__dirname,'node_modules')));
-app.use('/views', express.static(path.resolve(__dirname,'views')));
+app.use('/public', express.static(path.resolve(__dirname, 'public')));
+app.use('/routes', express.static(path.resolve(__dirname, 'routes')));
+app.use('/node_modules', express.static(path.resolve(__dirname, 'node_modules')));
+app.use('/views', express.static(path.resolve(__dirname, 'views')));
 
 app.use('/', views);
 app.use('/api/users', usersApi);
@@ -39,82 +39,82 @@ app.use('/api/files', filesApi);
 app.use('/api/folders', foldersApi);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+app.use(function (req, res, next) {
+	var err = new Error('Not Found');
+	err.status = 404;
+	next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function (err, req, res, next) {
+	// set locals, only providing error in development
+	res.locals.message = err.message;
+	res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-    res.sendFile('error.html', {root: path.resolve(__dirname, 'views'),  title: '404' });
+	// render the error page
+	res.status(err.status || 500);
+	res.sendFile('error.html', {root: path.resolve(__dirname, 'views'), title: '404'});
 });
 
 var mysqlConfig = config.get('mysql');
 var mysql = require('mysql');
 
 con = mysql.createConnection({
-    host: mysqlConfig.host ,
-    port :  mysqlConfig.port,
-    user: mysqlConfig.user,
-    password : mysqlConfig.password,
-    database : mysqlConfig.database,
-    multipleStatements: true
+	host: mysqlConfig.host,
+	port: mysqlConfig.port,
+	user: mysqlConfig.user,
+	password: mysqlConfig.password,
+	database: mysqlConfig.database,
+	multipleStatements: true
 });
 
-con.connect(function(err) {
-    if (err) throw err;
-    console.log("Connected!");
+con.connect(function (err) {
+	if (err) throw err;
+	console.log("Connected!");
 });
 
 
-
-process.argv.forEach(function(val, index){
-    if(val === '--import-db'){
-        console.log('Importing data to database...');
-        var sqlQuery = fs.readFileSync('./initdb.sql').toString();
-        con.query(sqlQuery, function(err, res){
-            if(err){
-                throw err;
-            }
-            console.log('Data succesfully imported to database')
-        });
-    }
+process.argv.forEach(function (val, index) {
+	if (val === '--import-db') {
+		console.log('Importing data to database...');
+		var sqlQuery = fs.readFileSync('./initdb.sql').toString();
+		con.query(sqlQuery, function (err, res) {
+			if (err) {
+				throw err;
+			}
+			console.log('Data succesfully imported to database')
+		});
+	}
 });
 
 passport.use(new BasicStrategy(
-    function(username, password, done) {
+	function (username, password, done) {
 
-        var query = 'SELECT * FROM user WHERE ?? = ?';
-        var inserts = ['username', username];
-        query = mysql.format(query, inserts);
+		var query = 'SELECT * FROM user WHERE ?? = ?';
+		var inserts = ['username', username];
+		query = mysql.format(query, inserts);
 
-        con.query(query, function(err, data){
-            if(err){
-                return done(err)}
-            if(data && data.length && data !== undefined) {
-                if(data.length > 1){
-                    return done(null, false);
-                }
-                else{
-                    if(bcrypt.compareSync(password, data[0].password)){
-                        return done(null, {id : data[0].id, password : password, username : username})
-                    } else {
-                        return done(null, false);
-                    }
-                }
-            }
-            else{
-                return done(null, false);
-            }
-        });
-    }
+		con.query(query, function (err, data) {
+			if (err) {
+				return done(err)
+			}
+			if (data && data.length && data !== undefined) {
+				if (data.length > 1) {
+					return done(null, false);
+				}
+				else {
+					if (bcrypt.compareSync(password, data[0].password)) {
+						return done(null, {id: data[0].id, password: password, username: username})
+					} else {
+						return done(null, false);
+					}
+				}
+			}
+			else {
+				return done(null, false);
+			}
+		});
+	}
 ));
 
 module.exports = app;
