@@ -7,6 +7,7 @@ var fs = require('fs');
 var multer = require('multer');
 var upload = multer({});
 var passport = require('passport');
+var getSize = require('get-folder-size');
 
 //Base route : /api/files
 
@@ -78,40 +79,55 @@ router.post('/upload', passport.authenticate('basic', {session: false}), upload.
 
 	var prefixPath = storageConfig.path + '/' + id;
 
-	if (!fs.existsSync(prefixPath)) {
-		res.status(400).json('Le dossier personnel de l\'utilistateur n\'exsite pas');
-		return;
-	}
+    getSize(prefixPath, function(err, size) {
+		if (err) {
+			res.status(500).json(err);
+		}
+		var dirSize = (size / 1024 / 1024);
+		var fileSize = (req.file.size /1024/1024);
+		var totalSize = (dirSize + fileSize);
+        console.log("Total size of user's files (in MB) : " + totalSize);
+        if(dirSize > 30000){
+            res.status(500).json('Vous avez dépassé votre place de 30GB');
+        }
+		else{
+            if (!fs.existsSync(prefixPath)) {
+                res.status(400).json('Le dossier personnel de l\'utilistateur n\'exsite pas');
+                return;
+            }
 
-	var pathToGet = prefixPath + path;
+            var pathToGet = prefixPath + path;
 
-	if (!fs.existsSync(pathToGet)) {
-		res.status(400).json('Le chemin n\'est pas valide');
-		return;
-	}
+            if (!fs.existsSync(pathToGet)) {
+                res.status(400).json('Le chemin n\'est pas valide');
+                return;
+            }
 
-	if (!fs.lstatSync(pathToGet).isDirectory()) {
-		res.status(400).json('Le chemin n\'est pas valide ou n\'est pas un dossier');
-		return;
-	}
+            if (!fs.lstatSync(pathToGet).isDirectory()) {
+                res.status(400).json('Le chemin n\'est pas valide ou n\'est pas un dossier');
+                return;
+            }
 
-    if(pathToGet.slice(-1) !== "/"){
-        pathToGet = pathToGet + '/'
-    }
+            if(pathToGet.slice(-1) !== "/"){
+                pathToGet = pathToGet + '/'
+            }
 
-    var buffer = req.file.buffer;
+            var buffer = req.file.buffer;
 
-	var fileDescriptor;
-	try {
-		fileDescriptor = fs.openSync(pathToGet + req.file.originalname, 'w');
-	} catch (e) {
-		res.sendStatus(500)
-	}
-	if (fileDescriptor) {
-		fs.writeSync(fileDescriptor, buffer, 0, buffer.length, 0);
-		fs.closeSync(fileDescriptor);
-	}
-	res.sendStatus(200);
+            var fileDescriptor;
+            try {
+                fileDescriptor = fs.openSync(pathToGet + req.file.originalname, 'w');
+            } catch (e) {
+                res.sendStatus(500)
+            }
+            if (fileDescriptor) {
+                fs.writeSync(fileDescriptor, buffer, 0, buffer.length, 0);
+                fs.closeSync(fileDescriptor);
+            }
+            res.sendStatus(200);
+        }
+	});
+
 });
 
 router.get('/list', passport.authenticate('basic', {session: false}), function (req, res, next) {
